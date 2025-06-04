@@ -1,3 +1,5 @@
+const cors = require('cors')
+app.use(cors()); 
 export default async function handler(req, res) {
   const adata = [];
   console.log(adata)
