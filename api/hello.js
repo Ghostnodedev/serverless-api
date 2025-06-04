@@ -3,6 +3,10 @@ export default async function handler(req, res) {
   console.log(adata)
 
   if (req.method === 'POST') {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
     const { name, username, email, password, businessName, businessType, mobile } = req.body;
     console.log(name, username, email, password, businessName, businessType, mobile);
     if(!name||!username ||!email ||!password ||!businessName ||!businessType ||! mobile){
