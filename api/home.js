@@ -59,15 +59,11 @@ const api3 = async () => {
 
 export default async function handler(req, res) {
   try {
-    // Fetch all data concurrently
     const results = await Promise.all([api1(), api2(), api3()]);
-    const data = results.flat(); // Combine all into one array
-
-    // Log sample data and length to Vercel logs
+    const data = results.flat(); 
     console.log("Sample fetched data (first 3 items):", data.slice(0, 3));
     console.log("Total items fetched:", data.length);
 
-    // Return JSON response
     res.status(200).json(data);
   } catch (error) {
     console.error("Handler Error:", error.message);

@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@middy/core": "^6.3.1",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0"
   }
 }
