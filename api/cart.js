@@ -29,15 +29,15 @@ export default async function handler(req, res) {
       res.status(500).json({ error: "Failed to fetch data" });
     }
   } else if (method === "POST") {
-    const { title, description, price, image } = body;
+    const { title, id, price, image } = body;
 
-    if (!title || !description || !price) {
+    if (!title || !id || !price) {
       return res.status(400).json({
         message: "Please fill all the fields",
       });
     }
 
-    const postData = [{ title, description, price, image }];
+    const postData = [{ title, id, price, image }];
     console.log("Posted data:", postData);
 
     return res.status(201).json({
