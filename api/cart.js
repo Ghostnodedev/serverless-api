@@ -2,34 +2,38 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS,GET");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  const { method, body } = req;
+
+  // Handle CORS preflight
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
+  const { method } = req;
+
+  // Manually parse JSON body if it's a raw string (Vercel behavior)
+  let body = req.body;
+
+  if (req.headers['content-type'] === 'application/json' && typeof body === 'string') {
+    try {
+      body = JSON.parse(body);
+    } catch (e) {
+      console.error("Invalid JSON:", e.message);
+      return res.status(400).json({ message: "Invalid JSON body" });
+    }
+  }
+
   console.log("Incoming data:", body);
 
   if (method === "GET") {
-    try {
-      const url = "https://serverless-api-nine-dun.vercel.app/api/cart";
-      const requestOptions = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
+    // Example data response
+    return res.status(200).json({
+      message: "No products yet",
+      data: [],
+    });
+  }
 
-      const response = await fetch(url, requestOptions);
-      const responseData = await response.json();
-
-      console.log("Fetched data:", responseData);
-
-      res.status(200).json({
-        message: "Data fetched successfully",
-        data: responseData,
-      });
-    } catch (error) {
-      console.error("Fetch error:", error.message);
-      res.status(500).json({ error: "Failed to fetch data" });
-    }
-  } else if (method === "POST") {
-    const { title, id, price, image } = body;
+  if (method === "POST") {
+    const { title, id, price, image } = body || {};
 
     if (!title || !id || !price) {
       return res.status(400).json({
@@ -44,8 +48,8 @@ export default async function handler(req, res) {
       message: "Data posted successfully",
       data: postData,
     });
-  } else {
-    res.setHeader("Allow", ["GET", "POST"]);
-    return res.status(405).json({ message: `Method ${method} not allowed` });
   }
+
+  res.setHeader("Allow", ["GET", "POST"]);
+  return res.status(405).json({ message: `Method ${method} not allowed` });
 }
