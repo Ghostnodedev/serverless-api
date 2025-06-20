@@ -31,7 +31,7 @@ export default async function handler(req, res) {
   else if (method === "POST") {
     const { title, description, price, image } = body;
 
-    if (!title || !description || !price || !image) {
+    if (!title || !description || !price) {
       return res.status(400).json({
         message: "Please fill all the fields",
       });
