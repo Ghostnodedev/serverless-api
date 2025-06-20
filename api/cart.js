@@ -1,6 +1,8 @@
 export default async function handler(req, res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS,GET");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   const { method, body } = req;
-
   console.log("Incoming data:", body);
 
   if (method === "GET") {
@@ -26,9 +28,7 @@ export default async function handler(req, res) {
       console.error("Fetch error:", error.message);
       res.status(500).json({ error: "Failed to fetch data" });
     }
-  }
-
-  else if (method === "POST") {
+  } else if (method === "POST") {
     const { title, description, price, image } = body;
 
     if (!title || !description || !price) {
@@ -40,15 +40,11 @@ export default async function handler(req, res) {
     const postData = [{ title, description, price, image }];
     console.log("Posted data:", postData);
 
-    // You could forward this data to a database or API here
     return res.status(201).json({
       message: "Data posted successfully",
       data: postData,
     });
-  }
-
-  else {
-    // Method not allowed
+  } else {
     res.setHeader("Allow", ["GET", "POST"]);
     return res.status(405).json({ message: `Method ${method} not allowed` });
   }
