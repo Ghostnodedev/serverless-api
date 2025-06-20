@@ -1,8 +1,9 @@
 'use strict';
-const cors = require('cors');
-app.use(cors());
 
-// Fetch and transform data from API 1
+// You do not need to use cors() middleware in a Vercel serverless function
+// const cors = require('cors');
+// app.use(cors());
+
 const api1 = async () => {
   try {
     const response = await fetch("https://api.escuelajs.co/api/v1/products");
@@ -17,11 +18,10 @@ const api1 = async () => {
     }));
   } catch (error) {
     console.error("API1 Error:", error.message);
-    return []; // Return empty array on failure
+    return [];
   }
 };
 
-// Fetch and transform data from API 2
 const api2 = async () => {
   try {
     const response = await fetch("https://fakestoreapi.com/products");
@@ -40,7 +40,6 @@ const api2 = async () => {
   }
 };
 
-// Fetch and transform data from API 3 (DummyJSON)
 const api3 = async () => {
   try {
     const response = await fetch("https://dummyjson.com/products");
@@ -60,9 +59,18 @@ const api3 = async () => {
 };
 
 export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*'); // or 'http://localhost:3000'
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Handle CORS preflight request
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   try {
     const results = await Promise.all([api1(), api2(), api3()]);
-    const data = results.flat(); 
+    const data = results.flat();
     console.log("Sample fetched data (first 3 items):", data.slice(0, 3));
     console.log("Total items fetched:", data.length);
 
