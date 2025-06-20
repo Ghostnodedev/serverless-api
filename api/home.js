@@ -1,4 +1,6 @@
 'use strict';
+const cors = require('cors');
+app.use(cors());
 
 // Fetch and transform data from API 1
 const api1 = async () => {
