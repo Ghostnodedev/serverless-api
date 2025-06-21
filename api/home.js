@@ -1,6 +1,8 @@
 'use strict';
 
 // You do not need to use cors() middleware in a Vercel serverless function
+const express = require('express');
+const app = express();
 const cors = require('cors');
 app.use(cors());
 
