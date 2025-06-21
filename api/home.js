@@ -1,8 +1,8 @@
 'use strict';
 
 // You do not need to use cors() middleware in a Vercel serverless function
-// const cors = require('cors');
-// app.use(cors());
+const cors = require('cors');
+app.use(cors());
 
 const api1 = async () => {
   try {
@@ -59,7 +59,7 @@ const api3 = async () => {
 };
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*'); // or 'http://localhost:3000'
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
