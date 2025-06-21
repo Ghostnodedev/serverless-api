@@ -1,10 +1,10 @@
 'use strict';
 
 // You do not need to use cors() middleware in a Vercel serverless function
-const express = require('express');
-const app = express();
-const cors = require('cors');
-app.use(cors());
+// const express = require('express');
+// const app = express();
+// const cors = require('cors');
+// app.use(cors());
 
 const api1 = async () => {
   try {
@@ -82,4 +82,3 @@ export default async function handler(req, res) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
-x
