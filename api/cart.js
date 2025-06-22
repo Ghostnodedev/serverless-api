@@ -27,11 +27,11 @@ export default async function handler(req, res) {
       message: "Data posted successfully",
       data: postData,
     });
-  } else if (method === "GET") {
+  } else if (method === "POST") {
     try {
       const url = "https://serverless-api-nine-dun.vercel.app/api/cart";
       const requestOptions = {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
